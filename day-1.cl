@@ -1,8 +1,17 @@
+(defun sum-over (list) (reduce #'+ list))
+
+(defun triples (ns) (apply #'mapcar #'list (list ns (cdr ns) (cdr (cdr ns)))))
+
+(defun increases (nums) (count t (mapcar #'< nums (cdr nums))))
+
 (defun read-numbers (input-file) 
     (mapcar #'parse-integer (uiop:read-file-lines input-file)))
 
-(defun increases (x y) (> y x))
-
 (defun calculate-increases (input-file) 
   (let ((nums (read-numbers input-file)))
-    (count t (mapcar #'increases nums (cdr nums)))))
+    (increases nums)))
+
+(defun slide-window-increases (input-file)
+  (let* ((nums (read-numbers input-file))
+        (tuples (triples nums)))
+        (increases (mapcar #'sum-over tuples))))
